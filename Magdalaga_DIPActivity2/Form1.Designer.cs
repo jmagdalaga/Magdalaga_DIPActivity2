@@ -23,87 +23,80 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            menuStrip1 = new MenuStrip();
+            components = new System.ComponentModel.Container();
+            menuStrip = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
-            openImageToolStripMenuItem = new ToolStripMenuItem();
-            openWebcamToolStripMenuItem = new ToolStripMenuItem();
-            closeWebcamToolStripMenuItem = new ToolStripMenuItem();
+            openToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
-            processImageToolStripMenuItem = new ToolStripMenuItem();
+            processimageToolStripMenuItem = new ToolStripMenuItem();
             basicCopyToolStripMenuItem = new ToolStripMenuItem();
             greyscaleToolStripMenuItem = new ToolStripMenuItem();
             colorInversionToolStripMenuItem = new ToolStripMenuItem();
             histogramToolStripMenuItem = new ToolStripMenuItem();
             sepiaToolStripMenuItem = new ToolStripMenuItem();
-            pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
+            pictureBox1 = new PictureBox();
+            openFileDialog = new OpenFileDialog();
             pictureBox3 = new PictureBox();
             btnloadimage = new Button();
             btnloadbg = new Button();
             btnsubtract = new Button();
-            openFileDialog = new OpenFileDialog();
             openFileDialog1 = new OpenFileDialog();
-            menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            timer1 = new System.Windows.Forms.Timer(components);
+            timer2 = new System.Windows.Forms.Timer(components);
+            openFileDialog2 = new OpenFileDialog();
+            label1 = new Label();
+            btncloseWebcam = new Button();
+            btnopenWebcam = new Button();
+            menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
-            // menuStrip1
+            // menuStrip
             // 
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, processImageToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1354, 28);
-            menuStrip1.TabIndex = 0;
-            menuStrip1.Text = "menuStrip1";
+            menuStrip.ImageScalingSize = new Size(20, 20);
+            menuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, processimageToolStripMenuItem });
+            menuStrip.Location = new Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Padding = new Padding(8, 3, 0, 3);
+            menuStrip.Size = new Size(1475, 30);
+            menuStrip.TabIndex = 19;
+            menuStrip.Text = "menuStrip";
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openImageToolStripMenuItem, openWebcamToolStripMenuItem, closeWebcamToolStripMenuItem, saveToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
             // 
-            // openImageToolStripMenuItem
+            // openToolStripMenuItem
             // 
-            openImageToolStripMenuItem.Name = "openImageToolStripMenuItem";
-            openImageToolStripMenuItem.Size = new Size(224, 26);
-            openImageToolStripMenuItem.Text = "Open Image";
-            openImageToolStripMenuItem.Click += openToolStripMenuItem_Click;
-            // 
-            // openWebcamToolStripMenuItem
-            // 
-            openWebcamToolStripMenuItem.Name = "openWebcamToolStripMenuItem";
-            openWebcamToolStripMenuItem.Size = new Size(224, 26);
-            openWebcamToolStripMenuItem.Text = "Open Webcam";
-            openWebcamToolStripMenuItem.Click += openWebcamToolStripMenuItem_Click;
-            // 
-            // closeWebcamToolStripMenuItem
-            // 
-            closeWebcamToolStripMenuItem.Name = "closeWebcamToolStripMenuItem";
-            closeWebcamToolStripMenuItem.Size = new Size(224, 26);
-            closeWebcamToolStripMenuItem.Text = "Close Webcam";
-            closeWebcamToolStripMenuItem.Click += closeWebcamToolStripMenuItem_Click;
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(174, 26);
+            openToolStripMenuItem.Text = "Open Image";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(224, 26);
+            saveToolStripMenuItem.Size = new Size(174, 26);
             saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
-            // processImageToolStripMenuItem
+            // processimageToolStripMenuItem
             // 
-            processImageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicCopyToolStripMenuItem, greyscaleToolStripMenuItem, colorInversionToolStripMenuItem, histogramToolStripMenuItem, sepiaToolStripMenuItem });
-            processImageToolStripMenuItem.Name = "processImageToolStripMenuItem";
-            processImageToolStripMenuItem.Size = new Size(118, 24);
-            processImageToolStripMenuItem.Text = "Process Image";
+            processimageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { basicCopyToolStripMenuItem, greyscaleToolStripMenuItem, colorInversionToolStripMenuItem, histogramToolStripMenuItem, sepiaToolStripMenuItem });
+            processimageToolStripMenuItem.Name = "processimageToolStripMenuItem";
+            processimageToolStripMenuItem.Size = new Size(118, 24);
+            processimageToolStripMenuItem.Text = "Process Image";
             // 
             // basicCopyToolStripMenuItem
             // 
@@ -117,106 +110,164 @@
             greyscaleToolStripMenuItem.Name = "greyscaleToolStripMenuItem";
             greyscaleToolStripMenuItem.Size = new Size(191, 26);
             greyscaleToolStripMenuItem.Text = "Greyscale";
+            greyscaleToolStripMenuItem.Click += greyscaleToolStripMenuItem_Click;
             // 
             // colorInversionToolStripMenuItem
             // 
             colorInversionToolStripMenuItem.Name = "colorInversionToolStripMenuItem";
             colorInversionToolStripMenuItem.Size = new Size(191, 26);
             colorInversionToolStripMenuItem.Text = "Color Inversion";
+            colorInversionToolStripMenuItem.Click += colorInversionToolStripMenuItem_Click;
             // 
             // histogramToolStripMenuItem
             // 
             histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
             histogramToolStripMenuItem.Size = new Size(191, 26);
             histogramToolStripMenuItem.Text = "Histogram";
+            histogramToolStripMenuItem.Click += histogramToolStripMenuItem_Click;
             // 
             // sepiaToolStripMenuItem
             // 
             sepiaToolStripMenuItem.Name = "sepiaToolStripMenuItem";
             sepiaToolStripMenuItem.Size = new Size(191, 26);
             sepiaToolStripMenuItem.Text = "Sepia";
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Location = new Point(52, 73);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(381, 290);
-            pictureBox1.TabIndex = 1;
-            pictureBox1.TabStop = false;
+            sepiaToolStripMenuItem.Click += sepiaToolStripMenuItem_Click;
             // 
             // pictureBox2
             // 
-            pictureBox2.Location = new Point(486, 73);
+            pictureBox2.BackColor = SystemColors.Control;
+            pictureBox2.Location = new Point(536, 119);
+            pictureBox2.Margin = new Padding(4, 5, 4, 5);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(381, 290);
-            pictureBox2.TabIndex = 2;
+            pictureBox2.Size = new Size(401, 330);
+            pictureBox2.TabIndex = 21;
             pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = SystemColors.Control;
+            pictureBox1.Location = new Point(57, 119);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(410, 330);
+            pictureBox1.TabIndex = 20;
+            pictureBox1.TabStop = false;
+            // 
+            // openFileDialog
+            // 
+            openFileDialog.FileName = "openFileDialog";
+            openFileDialog.FileOk += openFileDialog_FileOk;
             // 
             // pictureBox3
             // 
-            pictureBox3.Location = new Point(924, 73);
+            pictureBox3.BackColor = SystemColors.Control;
+            pictureBox3.Location = new Point(1002, 119);
+            pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(381, 290);
-            pictureBox3.TabIndex = 3;
+            pictureBox3.Size = new Size(401, 330);
+            pictureBox3.TabIndex = 27;
             pictureBox3.TabStop = false;
             // 
             // btnloadimage
             // 
-            btnloadimage.Location = new Point(155, 386);
+            btnloadimage.Location = new Point(177, 471);
             btnloadimage.Name = "btnloadimage";
-            btnloadimage.Size = new Size(136, 29);
-            btnloadimage.TabIndex = 4;
+            btnloadimage.Size = new Size(145, 29);
+            btnloadimage.TabIndex = 28;
             btnloadimage.Text = "Load Image";
             btnloadimage.UseVisualStyleBackColor = true;
-            btnloadimage.Click += button1_Click;
+            btnloadimage.Click += btnloadimg_Click;
             // 
             // btnloadbg
             // 
-            btnloadbg.Location = new Point(599, 386);
+            btnloadbg.Location = new Point(676, 471);
             btnloadbg.Name = "btnloadbg";
             btnloadbg.Size = new Size(140, 29);
-            btnloadbg.TabIndex = 5;
+            btnloadbg.TabIndex = 29;
             btnloadbg.Text = "Load Background";
             btnloadbg.UseVisualStyleBackColor = true;
             btnloadbg.Click += btnloadbg_Click;
             // 
             // btnsubtract
             // 
-            btnsubtract.Location = new Point(1094, 386);
+            btnsubtract.Location = new Point(1164, 471);
             btnsubtract.Name = "btnsubtract";
             btnsubtract.Size = new Size(94, 29);
-            btnsubtract.TabIndex = 6;
+            btnsubtract.TabIndex = 30;
             btnsubtract.Text = "Subtract";
             btnsubtract.UseVisualStyleBackColor = true;
             btnsubtract.Click += btnsubtract_Click;
             // 
-            // openFileDialog
-            // 
-            openFileDialog.FileName = "openFileDialog";
-            // 
             // openFileDialog1
             // 
             openFileDialog1.FileName = "openFileDialog1";
+            openFileDialog1.FileOk += openFileDialog1_FileOk;
+            // 
+            // timer1
+            // 
+            timer1.Tick += timer1_Tick;
+            // 
+            // timer2
+            // 
+            timer2.Tick += timer2_Tick;
+            // 
+            // openFileDialog2
+            // 
+            openFileDialog2.FileName = "openFileDialog2";
+            openFileDialog2.FileOk += openFileDialog2_FileOk;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 59);
+            label1.Name = "label1";
+            label1.Size = new Size(132, 20);
+            label1.TabIndex = 37;
+            label1.Text = "For WEBCAM only:";
+            // 
+            // btncloseWebcam
+            // 
+            btncloseWebcam.Location = new Point(307, 55);
+            btncloseWebcam.Name = "btncloseWebcam";
+            btncloseWebcam.Size = new Size(138, 29);
+            btncloseWebcam.TabIndex = 39;
+            btncloseWebcam.Text = "Close Webcam";
+            btncloseWebcam.UseVisualStyleBackColor = true;
+            btncloseWebcam.Click += btncloseWebcam_Click;
+            // 
+            // btnopenWebcam
+            // 
+            btnopenWebcam.Location = new Point(152, 55);
+            btnopenWebcam.Name = "btnopenWebcam";
+            btnopenWebcam.Size = new Size(138, 29);
+            btnopenWebcam.TabIndex = 38;
+            btnopenWebcam.Text = "Open Webcam";
+            btnopenWebcam.UseVisualStyleBackColor = true;
+            btnopenWebcam.Click += btnopenWebcam_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1354, 450);
+            BackColor = SystemColors.Control;
+            ClientSize = new Size(1475, 546);
+            Controls.Add(btncloseWebcam);
+            Controls.Add(btnopenWebcam);
+            Controls.Add(label1);
             Controls.Add(btnsubtract);
             Controls.Add(btnloadbg);
             Controls.Add(btnloadimage);
             Controls.Add(pictureBox3);
+            Controls.Add(menuStrip);
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
-            Controls.Add(menuStrip1);
-            MainMenuStrip = menuStrip1;
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
-            Text = "Form1";
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            Text = "Magdalaga Image Processing";
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -224,25 +275,30 @@
 
         #endregion
 
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem fileToolStripMenuItem;
-        private ToolStripMenuItem openImageToolStripMenuItem;
-        private ToolStripMenuItem openWebcamToolStripMenuItem;
-        private ToolStripMenuItem closeWebcamToolStripMenuItem;
-        private ToolStripMenuItem saveToolStripMenuItem;
-        private ToolStripMenuItem processImageToolStripMenuItem;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem processimageToolStripMenuItem;
         private ToolStripMenuItem basicCopyToolStripMenuItem;
         private ToolStripMenuItem greyscaleToolStripMenuItem;
         private ToolStripMenuItem colorInversionToolStripMenuItem;
         private ToolStripMenuItem histogramToolStripMenuItem;
         private ToolStripMenuItem sepiaToolStripMenuItem;
-        private PictureBox pictureBox1;
         private PictureBox pictureBox2;
+        private PictureBox pictureBox1;
+        private OpenFileDialog openFileDialog;
+        private Label label2;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem saveToolStripMenuItem;
         private PictureBox pictureBox3;
         private Button btnloadimage;
         private Button btnloadbg;
         private Button btnsubtract;
-        private OpenFileDialog openFileDialog;
         private OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer2;
+        private OpenFileDialog openFileDialog2;
+        private Label label1;
+        private Button btncloseWebcam;
+        private Button btnopenWebcam;
     }
 }

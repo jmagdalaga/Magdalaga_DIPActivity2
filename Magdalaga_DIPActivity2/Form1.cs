@@ -1,6 +1,7 @@
 using WebCamLib;
 using System.ComponentModel;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Magdalaga_DIPActivity2
 {
@@ -9,8 +10,10 @@ namespace Magdalaga_DIPActivity2
         Bitmap loaded;
         Bitmap processed;
         Bitmap img;
-        Bitmap output;
-        Bitmap bg;
+        Bitmap firstImg;
+        Bitmap secImg;
+        Device firstDevice;
+        Device[] allDevices;
         public Form1()
         {
             InitializeComponent();
@@ -20,8 +23,9 @@ namespace Magdalaga_DIPActivity2
             loaded = new Bitmap(1, 1);
             processed = new Bitmap(1, 1);
             img = new Bitmap(1, 1);
-            output = new Bitmap(1, 1);
-            bg = new Bitmap(1, 1);
+            firstImg = new Bitmap(1, 1);
+            secImg = new Bitmap(1, 1);
+
         }
 
         private void basicCopyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -134,16 +138,9 @@ namespace Magdalaga_DIPActivity2
             pictureBox1.Image = loaded;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog.ShowDialog();
-            img = new Bitmap(openFileDialog.FileName);
-            pictureBox1.Image = img;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -168,104 +165,124 @@ namespace Magdalaga_DIPActivity2
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnloadimg_Click(object sender, EventArgs e)
         {
-            openFileDialog.ShowDialog();
-            img = new Bitmap(openFileDialog.FileName);
-            pictureBox1.Image = img;
+            openFileDialog1.ShowDialog();
         }
 
         private void btnloadbg_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
-            img = new Bitmap(openFileDialog1.FileName);
-            pictureBox2.Image = img;
+            openFileDialog2.ShowDialog();
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-            loaded = new Bitmap(openFileDialog1.FileName);
-            pictureBox2.Image = loaded;
+            firstImg = new Bitmap(openFileDialog1.FileName);
+            pictureBox1.Image = firstImg;
         }
 
         private void btnsubtract_Click(object sender, EventArgs e)
         {
-            if (pictureBox2.Image != null)
+            if (firstImg == null || secImg == null)
             {
-                output = new Bitmap(img.Width, img.Height);
-                Color bgGreen = Color.FromArgb(0, 0, 255);
-                int green = (int)(bgGreen.R + bgGreen.G + bgGreen.B) / 3;
-                int greenThreshold = 10;
+                MessageBox.Show("Ensure both images are loaded before subtracting", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                for (int i = 0; i < img.Width; i++)
-                {
-                    for (int j = 0; j < img.Height; j++)
-                    {
-                        Color imageColor = img.GetPixel(i, j);
-                        Color backgroundColor = bg.GetPixel(i, j);
-                        int grey = (int)(imageColor.R + imageColor.G + imageColor.B) / 3;
-                        int subtract = Math.Abs(grey - green);
-
-                        if (subtract < greenThreshold)
-                        {
-                            output.SetPixel(i, j, backgroundColor);
-                        }
-                        else
-                        {
-                            output.SetPixel(i, j, imageColor);
-                        }
-                    }
-                }
-                pictureBox3.Image = output;
+            if (timer1.Enabled && pictureBox2 != null && pictureBox2.Image != null)
+            {
+                timer2.Start();
             }
             else
             {
-                MessageBox.Show("Please put an image on Picture Box 2 to continue Subtraction", "Image Processing Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                subtractImages(secImg);
             }
         }
 
-        private void openWebcamToolStripMenuItem_Click(object sender, EventArgs e)
+        public void subtractImages(Bitmap frame)
         {
-            try
-            {
-                Device[] allDevices = DeviceManager.GetAllDevices();
+            processed = new Bitmap(firstImg.Width, firstImg.Height);
+            Color targetColor = Color.FromArgb(0, 255, 0);
+            int targetGrey = (int)(targetColor.R + targetColor.G + targetColor.B) / 3;
+            int threshold = 10;
 
-                if (allDevices.Length > 0)
-                {
-                    Device firstDevice = allDevices[0];
-                    firstDevice.ShowWindow(pictureBox1);
-                }
-                else
-                {
-                    MessageBox.Show("There is no webcam device!");
-                }
-            }
-            catch (Exception)
+            for (int x = 0; x < firstImg.Width; x++)
             {
-                MessageBox.Show("Try again, there is an error opening the webcam!", "Webcam Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                for (int y = 0; y < firstImg.Height; y++)
+                {
+                    Color fColor = firstImg.GetPixel(x, y);
+                    Color bColor = frame.GetPixel(x, y);
+                    int greyValue = (int)(fColor.R + fColor.G + fColor.B) / 3;
+
+                    bool isCloseToTarget = Math.Abs(greyValue - targetGrey) < threshold;
+
+                    processed.SetPixel(x, y, isCloseToTarget ? bColor : fColor);
+                }
             }
+
+            pictureBox3.Image = processed;
         }
 
-        private void closeWebcamToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openFileDialog2_FileOk(object sender, CancelEventArgs e)
         {
-            try
-            {
-                Device[] allDevices = DeviceManager.GetAllDevices();
-
-                if (allDevices.Length > 0)
-                {
-                    Device firstDevice = allDevices[0];
-                    firstDevice.Stop();
-                }
-                else
-                {
-                    MessageBox.Show("There is no webcam device!");
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Try again, there is an error closing the webcam!", "Webcam Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            secImg = new Bitmap(openFileDialog2.FileName);
+            pictureBox2.Image = secImg;
         }
+
+        private void btnopenWebcam_Click(object sender, EventArgs e)
+        {
+            if (firstDevice == null)
+            {
+                try
+                {
+                    allDevices = DeviceManager.GetAllDevices();
+                    firstDevice = allDevices[0];
+                    if (allDevices.Length > 0)
+                    {
+                        string deviceInfo = "Available Devices:\n\n";
+
+                        for (int i = 0; i < allDevices.Length; i++)
+                        {
+                            deviceInfo += $"Device {i + 1}: {allDevices[i].Name} - Version: {allDevices[i].Version}\n";
+                        }
+                        MessageBox.Show(deviceInfo, "Available Devices");
+
+                        firstDevice.ShowWindow(pictureBox1);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No webcam devices found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error initializing webcam: {ex.Message}");
+                }
+            }
+
+        }
+
+        private void btncloseWebcam_Click(object sender, EventArgs e)
+        {
+            if (pictureBox2.Image != null && timer1.Enabled)
+            {
+                timer1.Stop();
+                pictureBox2.Image.Dispose();
+                pictureBox2.Image = null;
+                secImg = null;
+            }
+            if (pictureBox3.Image != null && timer2.Enabled)
+            {
+                timer2.Stop();
+                pictureBox3.Image.Dispose();
+                pictureBox3.Image = null;
+            }
+            if (firstDevice != null)
+            {
+                firstDevice.Stop();
+                firstDevice = null;
+            }
+
+        }     
     }
 }
