@@ -50,7 +50,6 @@
             timer1 = new System.Windows.Forms.Timer(components);
             timer2 = new System.Windows.Forms.Timer(components);
             openFileDialog2 = new OpenFileDialog();
-            label1 = new Label();
             btncloseWebcam = new Button();
             btnopenWebcam = new Button();
             menuStrip.SuspendLayout();
@@ -136,17 +135,17 @@
             // pictureBox2
             // 
             pictureBox2.BackColor = SystemColors.Control;
-            pictureBox2.Location = new Point(536, 119);
+            pictureBox2.Location = new Point(550, 140);
             pictureBox2.Margin = new Padding(4, 5, 4, 5);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(401, 330);
+            pictureBox2.Size = new Size(410, 330);
             pictureBox2.TabIndex = 21;
             pictureBox2.TabStop = false;
             // 
             // pictureBox1
             // 
             pictureBox1.BackColor = SystemColors.Control;
-            pictureBox1.Location = new Point(57, 119);
+            pictureBox1.Location = new Point(71, 140);
             pictureBox1.Margin = new Padding(4, 5, 4, 5);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(410, 330);
@@ -161,16 +160,16 @@
             // pictureBox3
             // 
             pictureBox3.BackColor = SystemColors.Control;
-            pictureBox3.Location = new Point(1002, 119);
+            pictureBox3.Location = new Point(1016, 140);
             pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(401, 330);
+            pictureBox3.Size = new Size(410, 330);
             pictureBox3.TabIndex = 27;
             pictureBox3.TabStop = false;
             // 
             // btnloadimage
             // 
-            btnloadimage.Location = new Point(177, 471);
+            btnloadimage.Location = new Point(191, 492);
             btnloadimage.Name = "btnloadimage";
             btnloadimage.Size = new Size(145, 29);
             btnloadimage.TabIndex = 28;
@@ -180,7 +179,7 @@
             // 
             // btnloadbg
             // 
-            btnloadbg.Location = new Point(676, 471);
+            btnloadbg.Location = new Point(690, 492);
             btnloadbg.Name = "btnloadbg";
             btnloadbg.Size = new Size(140, 29);
             btnloadbg.TabIndex = 29;
@@ -190,7 +189,7 @@
             // 
             // btnsubtract
             // 
-            btnsubtract.Location = new Point(1164, 471);
+            btnsubtract.Location = new Point(1178, 492);
             btnsubtract.Name = "btnsubtract";
             btnsubtract.Size = new Size(94, 29);
             btnsubtract.TabIndex = 30;
@@ -205,10 +204,12 @@
             // 
             // timer1
             // 
+            timer1.Interval = 33;
             timer1.Tick += timer1_Tick;
             // 
             // timer2
             // 
+            timer2.Interval = 33;
             timer2.Tick += timer2_Tick;
             // 
             // openFileDialog2
@@ -216,18 +217,9 @@
             openFileDialog2.FileName = "openFileDialog2";
             openFileDialog2.FileOk += openFileDialog2_FileOk;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 59);
-            label1.Name = "label1";
-            label1.Size = new Size(132, 20);
-            label1.TabIndex = 37;
-            label1.Text = "For WEBCAM only:";
-            // 
             // btncloseWebcam
             // 
-            btncloseWebcam.Location = new Point(307, 55);
+            btncloseWebcam.Location = new Point(228, 64);
             btncloseWebcam.Name = "btncloseWebcam";
             btncloseWebcam.Size = new Size(138, 29);
             btncloseWebcam.TabIndex = 39;
@@ -237,7 +229,7 @@
             // 
             // btnopenWebcam
             // 
-            btnopenWebcam.Location = new Point(152, 55);
+            btnopenWebcam.Location = new Point(73, 64);
             btnopenWebcam.Name = "btnopenWebcam";
             btnopenWebcam.Size = new Size(138, 29);
             btnopenWebcam.TabIndex = 38;
@@ -250,10 +242,9 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1475, 546);
+            ClientSize = new Size(1475, 555);
             Controls.Add(btncloseWebcam);
             Controls.Add(btnopenWebcam);
-            Controls.Add(label1);
             Controls.Add(btnsubtract);
             Controls.Add(btnloadbg);
             Controls.Add(btnloadimage);
@@ -297,7 +288,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Timer timer2;
         private OpenFileDialog openFileDialog2;
-        private Label label1;
         private Button btncloseWebcam;
         private Button btnopenWebcam;
     }

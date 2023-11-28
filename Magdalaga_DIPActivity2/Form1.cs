@@ -1,6 +1,17 @@
 using WebCamLib;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Magdalaga_DIPActivity2
@@ -23,9 +34,6 @@ namespace Magdalaga_DIPActivity2
             loaded = new Bitmap(1, 1);
             processed = new Bitmap(1, 1);
             img = new Bitmap(1, 1);
-            firstImg = new Bitmap(1, 1);
-            secImg = new Bitmap(1, 1);
-
         }
 
         private void basicCopyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -152,7 +160,6 @@ namespace Magdalaga_DIPActivity2
             {
                 string filePath = saveFileDialog.FileName;
 
-                // Save the processed image from pictureBox2.Image
                 if (pictureBox2.Image != null)
                 {
                     processed.Save(filePath);
@@ -167,12 +174,12 @@ namespace Magdalaga_DIPActivity2
 
         private void btnloadimg_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+            openFileDialog1.ShowDialog(this);
         }
 
         private void btnloadbg_Click(object sender, EventArgs e)
         {
-            openFileDialog2.ShowDialog();
+            openFileDialog2.ShowDialog(this);
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -183,27 +190,26 @@ namespace Magdalaga_DIPActivity2
 
         private void btnsubtract_Click(object sender, EventArgs e)
         {
-            if (firstImg == null || secImg == null)
+            if (secImg == null || firstImg == null)
             {
-                MessageBox.Show("Ensure both images are loaded before subtracting", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ensure to have both images before subtracting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            if (timer1.Enabled && pictureBox2 != null && pictureBox2.Image != null)
+            if (!(timer1.Enabled && pictureBox2 != null && pictureBox2.Image != null))
             {
-                timer2.Start();
+                subtractImages(secImg);
             }
             else
             {
-                subtractImages(secImg);
+                timer2.Start();
             }
         }
 
         public void subtractImages(Bitmap frame)
         {
             processed = new Bitmap(firstImg.Width, firstImg.Height);
-            Color targetColor = Color.FromArgb(0, 255, 0);
-            int targetGrey = (int)(targetColor.R + targetColor.G + targetColor.B) / 3;
+            Color myGreen = Color.FromArgb(0, 255, 0);
+            int greyGreen = (myGreen.R + myGreen.G + myGreen.B) / 3;
             int threshold = 10;
 
             for (int x = 0; x < firstImg.Width; x++)
@@ -211,12 +217,14 @@ namespace Magdalaga_DIPActivity2
                 for (int y = 0; y < firstImg.Height; y++)
                 {
                     Color fColor = firstImg.GetPixel(x, y);
-                    Color bColor = frame.GetPixel(x, y);
-                    int greyValue = (int)(fColor.R + fColor.G + fColor.B) / 3;
 
-                    bool isCloseToTarget = Math.Abs(greyValue - targetGrey) < threshold;
+                    int frameY = Math.Min(y, frame.Height - 1);
+                    Color bColor = frame.GetPixel(x, frameY);
 
-                    processed.SetPixel(x, y, isCloseToTarget ? bColor : fColor);
+                    int grey = (fColor.R + fColor.G + fColor.B) / 3;
+                    bool isGreen = Math.Abs(grey - greyGreen) < threshold;
+
+                    processed.SetPixel(x, y, isGreen ? bColor : fColor);
                 }
             }
 
@@ -231,58 +239,92 @@ namespace Magdalaga_DIPActivity2
 
         private void btnopenWebcam_Click(object sender, EventArgs e)
         {
-            if (firstDevice == null)
+            try
             {
-                try
+                Device[] allDevices = DeviceManager.GetAllDevices();
+
+                if (allDevices.Length > 0)
                 {
-                    allDevices = DeviceManager.GetAllDevices();
                     firstDevice = allDevices[0];
-                    if (allDevices.Length > 0)
-                    {
-                        string deviceInfo = "Available Devices:\n\n";
+                    firstDevice.ShowWindow(pictureBox2);
 
-                        for (int i = 0; i < allDevices.Length; i++)
-                        {
-                            deviceInfo += $"Device {i + 1}: {allDevices[i].Name} - Version: {allDevices[i].Version}\n";
-                        }
-                        MessageBox.Show(deviceInfo, "Available Devices");
+                    pictureBox3?.Image?.Dispose();
 
-                        firstDevice.ShowWindow(pictureBox1);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No webcam devices found.");
-                    }
+                    timer1.Start();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Error initializing webcam: {ex.Message}");
+                    MessageBox.Show("There is no webcam devices found.", "No Devices", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Try again, there is an error initializing the webcam.", "Webcam Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
+            if (firstDevice == null)
+            {
+                MessageBox.Show("There is no device selected.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btncloseWebcam_Click(object sender, EventArgs e)
         {
-            if (pictureBox2.Image != null && timer1.Enabled)
+            StopAndDisposeTimerAndImage(pictureBox2, timer1);
+            StopAndDisposeTimerAndImage(pictureBox3, timer2);
+
+            firstDevice?.Stop();
+        }
+
+        private void StopAndDisposeTimerAndImage(PictureBox pictureBox, System.Windows.Forms.Timer timer)
+        {
+            if (pictureBox.Image != null && timer.Enabled)
             {
-                timer1.Stop();
-                pictureBox2.Image.Dispose();
-                pictureBox2.Image = null;
-                secImg = null;
+                timer.Stop();
+                pictureBox.Image?.Dispose();
+                pictureBox.Image = null;
             }
-            if (pictureBox3.Image != null && timer2.Enabled)
+        }
+        private Bitmap CaptureAndRetrieveImage()
+        {
+            if (firstDevice == null)
             {
-                timer2.Stop();
-                pictureBox3.Image.Dispose();
-                pictureBox3.Image = null;
-            }
-            if (firstDevice != null)
-            {
-                firstDevice.Stop();
-                firstDevice = null;
+                MessageBox.Show("Please select a device, there is no device selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
             }
 
-        }     
+            firstDevice.Sendmessage();
+
+            if (Clipboard.GetDataObject() is IDataObject data && data.GetData("System.Drawing.Bitmap", true) is Image bmap)
+            {
+                return new Bitmap(bmap);
+            }
+
+            return null;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (firstDevice != null)
+            {
+                secImg = CaptureAndRetrieveImage();
+                if (secImg != null)
+                {
+                    if (pictureBox2 != null && pictureBox2.Image != null)
+                    {
+                        pictureBox2.Image.Dispose();
+                    }
+                    pictureBox2.Image = secImg;
+                }
+            }
+        }
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            Bitmap newFrame = CaptureAndRetrieveImage();
+            if (newFrame != null)
+            {
+                subtractImages(newFrame);
+            }
+        }
     }
 }
